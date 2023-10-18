@@ -6,6 +6,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import mongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors';
+import router from './routes';
 
 const app: Express = express();
 
@@ -42,6 +43,6 @@ app.use(express.json());
 mongoose.Promise = Promise;
 
 /** Router */
-// app.use('/api', router());
+app.use('/api', router());
 
 export default app;
