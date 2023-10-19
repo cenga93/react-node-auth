@@ -18,12 +18,11 @@ export default class ApiError extends Error {
  * This function is used for converting and normalizing errors in the application.
  * If the error is not of type ApiError, it is transformed into an instance of ApiError with the appropriate status code and message before being passed further for handling.
  *
- * @param err - This should be error
- * @param req -  This should be Request
- * @param res - This should be Response
- * @param next -  This should be function for the next step in processing
+ * @param err - Represents an error.
+ * @param req - Represents a Request.
+ * @param res - Represents a Response.
+ * @param next - A function for the next step in processing.
  */
-
 export const errorConverter = (err: IError, req: Request, res: Response, next: NextFunction): void => {
      let error: any = err;
 
@@ -39,10 +38,10 @@ export const errorConverter = (err: IError, req: Request, res: Response, next: N
 /**
  * This function is an error handling middleware.
  *
- * @param err - This should be error
- * @param req -  This should be Request
- * @param res - This should be Response
- * @param _next
+ * @param err - Represents an error.
+ * @param req - Represents a Request.
+ * @param res - Represents a Response.
+ * @param _next - A function for the next step in processing.
  */
 export const errorHandler = (err: IError, req: Request, res: Response, _next: NextFunction): Response => {
      const { statusCode, message } = err;
