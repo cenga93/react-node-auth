@@ -9,6 +9,7 @@ import cors from 'cors';
 import router from './routes';
 
 const app: Express = express();
+const origin = 'http://localhost:3000';
 
 /** Sanitizes user-supplied data to prevent MongoDB Operator Injection. */
 app.use(mongoSanitize());
@@ -16,22 +17,17 @@ app.use(mongoSanitize());
 /**  Compression middleware */
 app.use(compression());
 
-app.use(
-     cors({
-          credentials: true,
-          origin: 'http://localhost:3000',
-     }),
-);
+app.use(cors({ credentials: true, origin }));
 
 app.use(cookieParser());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-     res.header('Access-Control-Allow-Credentials', 'true');
+   res.header('Access-Control-Allow-Origin', origin);
+   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+   res.header('Access-Control-Allow-Credentials', 'true');
 
-     return next();
+   return next();
 });
 
 /** Parse application/x-www-form-urlencoded */
@@ -46,7 +42,7 @@ mongoose.Promise = Promise;
 app.use('/api', router());
 
 app.all('/api/*', function (req: Request, res: Response, next: NextFunction) {
-     next();
+   next();
 });
 
 export default app;

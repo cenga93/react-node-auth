@@ -3,50 +3,50 @@ import bcrypt from 'bcrypt';
 import { IUser } from '../types';
 
 export interface IUserModel extends IUser, Document {
-     getPublicFields(): Promise<IUser>;
+   getPublicFields(): Promise<IUser>;
 }
 
 const UserSchema = new Schema(
-     {
-          firstname: {
-               type: String,
-               required: true,
-          },
-          lastname: {
-               type: String,
-               required: true,
-          },
-          email: {
-               type: String,
-               required: true,
-               unique: true,
-          },
-          password: {
-               type: String,
-               required: true,
-          },
-     },
-     {
-          timestamps: true,
-     },
+   {
+      firstname: {
+         type: String,
+         required: true,
+      },
+      lastname: {
+         type: String,
+         required: true,
+      },
+      email: {
+         type: String,
+         required: true,
+         unique: true,
+      },
+      password: {
+         type: String,
+         required: true,
+      },
+   },
+   {
+      timestamps: true,
+   },
 );
 
 /**  Hashing password */
 UserSchema.pre('save', async function (next): Promise<void> {
-     let user = this;
+   let user = this;
 
-     /** Generate the salt */
-     const salt: string = await bcrypt.genSalt(10);
-     user.password = bcrypt.hashSync(user.password, salt);
+   /** Generate the salt */
+   const salt: string = await bcrypt.genSalt(10);
+   user.password = bcrypt.hashSync(user.password, salt);
 
-     return next();
+   return next();
 });
 
 /** Get public fields */
 UserSchema.methods.getPublicFields = async function (): Promise<IUser> {
-     const { firstname, lastname, email }: IUser = this as IUserModel;
+   const { firstname, lastname, email }: IUser = this as IUserModel;
 
-     return { firstname, lastname, email };
+   return { firstname, lastname, email };
 };
 
 const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
