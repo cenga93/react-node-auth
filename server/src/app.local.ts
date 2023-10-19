@@ -1,16 +1,23 @@
-import http from 'http';
 import mongoose from 'mongoose';
 import app from './app';
+import { errorConverter, errorHandler } from './middleware/error';
+
+mongoose.set('strictQuery', false);
 
 const PORT: string | undefined = process.env.PORT;
-const MONGO_URL: string | undefined = process.env.MONGO_URL;
 
 /** Starting the server */
-const server = http.createServer(app);
+app.listen(PORT, async () => {
+     const MONGO_URL: string | undefined = process.env.MONGO_URL;
 
-server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/`));
+     console.log(`Server running on http://localhost:${PORT}/`);
 
-if (MONGO_URL) {
-     mongoose.connect(MONGO_URL).then(() => console.log(`==> Connected to  database`));
-     mongoose.connection.on('error', (err) => console.log('Could not connect to the database. Exiting now...', err));
-}
+     if (MONGO_URL) {
+          mongoose.connect(MONGO_URL).then(() => console.log(`==> Connected to  database`));
+          mongoose.connection.on('error', (err) => console.log('Could not connect to the database. Exiting now...', err));
+     }
+
+     /** Error middleware */
+     app.use(errorConverter);
+     app.use(errorHandler);
+});
