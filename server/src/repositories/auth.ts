@@ -1,11 +1,12 @@
 import { Request } from 'express';
 import ApiError from '../middleware/error';
 import httpStatus from 'http-status';
+import jwt from 'jsonwebtoken';
 import { IUser } from '../types';
 import User, { IUserModel } from '../models/User';
 import { Types } from 'mongoose';
 
-const createUser = async (req: Request): Promise<IUser> => {
+const createUser = async (req: Request): Promise<{ user: IUser; token: string }> => {
      const { body } = req;
 
      /**  Check if user exists in database */
@@ -15,8 +16,22 @@ const createUser = async (req: Request): Promise<IUser> => {
      /**  Save new user in database  */
      const newUser: IUserModel = await new User(body).save();
 
+     /** Payload for token
+      *
+      *  The reason for the "string | undefined" password and email type is due to the "password?: string;" and "email?: string;"  declarations within the IUser interface.
+      * */
+     const payload: { email: string | undefined; password: string | undefined } = {
+          email: newUser.email,
+          password: newUser.password,
+     };
+
+     const token = jwt.sign(payload, 'secretkey', { expiresIn: '24h' });
+
      /** Return new user into controller */
-     return await newUser.getPublicFields();
+     return {
+          user: await newUser.getPublicFields(),
+          token: token,
+     };
 };
 
 export default {

@@ -5,11 +5,19 @@ import { catchAsync } from 'catch-async-express';
 import repo from '../repositories/auth';
 
 export const register = catchAsync(async (req: Request, res: Response) => {
-     const newUser: IUser = await repo.createUser(req);
+     const data: { user: IUser; token: string } = await repo.createUser(req);
 
-     res.status(httpStatus.OK).json(newUser);
+     res.cookie('token', data.token, {
+          httpOnly: true,
+          secure: true,
+     });
+
+     res.status(httpStatus.OK).json({
+          ...data.user,
+     });
 });
 
 export const logout = catchAsync(async (req: Request, res: Response) => {
-     res.send('logout');
+     res.clearCookie('token');
+     res.end();
 });
