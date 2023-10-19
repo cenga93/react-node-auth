@@ -20,6 +20,11 @@
          }
       }
 
+      &__error {
+         color: red;
+         font-size: 12px;
+      }
+
       label {
          margin-bottom: 5px;
       }

@@ -12,6 +12,7 @@ import config from '../config/config';
  *
  * @param req - Represents a Request.
  */
+
 const createUser = async (req: Request): Promise<{ user: IUser; token: string }> => {
    const { body } = req;
 
@@ -31,11 +32,14 @@ const createUser = async (req: Request): Promise<{ user: IUser; token: string }>
       password: newUser.password,
    };
 
-   const token = jwt.sign(payload, config.JWT_SECRET_KEY, { expiresIn: config.JWT_EXPIRATION });
+   const token: string = jwt.sign(payload, config.JWT_SECRET_KEY, { expiresIn: config.JWT_EXPIRATION });
 
    /** Return new user into controller */
    return {
-      user: await newUser.getPublicFields(),
+      user: {
+         firstname: newUser.firstname,
+         lastname: newUser.lastname,
+      },
       token: token,
    };
 };

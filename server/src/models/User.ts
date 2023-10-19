@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { IUser } from '../types';
 
 export interface IUserModel extends IUser, Document {
-   getPublicFields(): Promise<IUser>;
+   // getPublicFields(): Promise<IUser>;
 }
 
 const UserSchema = new Schema(
@@ -42,13 +42,6 @@ UserSchema.pre('save', async function (next): Promise<void> {
    return next();
 });
 
-/** Get public fields */
-UserSchema.methods.getPublicFields = async function (): Promise<IUser> {
-   const { firstname, lastname, email }: IUser = this as IUserModel;
-
-   return { firstname, lastname, email };
-};
-
-const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
+const User: Model<IUser> = model<IUser>('User', UserSchema);
 
 export default User;
