@@ -35,9 +35,6 @@ const UserSchema = new Schema(
 UserSchema.pre('save', async function (next): Promise<void> {
      let user = this;
 
-     /** Only hash the password if it has been modified or if is password is new */
-     if (!user.isModified('password')) return next();
-
      /** Generate the salt */
      const salt: string = await bcrypt.genSalt(10);
      user.password = bcrypt.hashSync(user.password, salt);
