@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { IUser } from '../types';
 import User, { IUserModel } from '../models/User';
 import { Types } from 'mongoose';
+import config from '../config/config';
 
 const createUser = async (req: Request): Promise<{ user: IUser; token: string }> => {
      const { body } = req;
@@ -20,12 +21,13 @@ const createUser = async (req: Request): Promise<{ user: IUser; token: string }>
       *
       *  The reason for the "string | undefined" password and email type is due to the "password?: string;" and "email?: string;"  declarations within the IUser interface.
       * */
+
      const payload: { email: string | undefined; password: string | undefined } = {
           email: newUser.email,
           password: newUser.password,
      };
 
-     const token = jwt.sign(payload, 'secretkey', { expiresIn: '24h' });
+     const token = jwt.sign(payload, config.JWT_SECRET_KEY, { expiresIn: config.JWT_EXPIRATION });
 
      /** Return new user into controller */
      return {

@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 import app from './app';
 import { errorConverter, errorHandler } from './middleware/error';
 import * as http from 'http';
+import config from './config/config';
 
-const PORT: string | undefined = process.env.PORT;
-const MONGO_URL: string | undefined = process.env.MONGO_URL;
+const PORT: number = config.PORT;
+const MONGO_URL: string | undefined = config.MONGO_URL;
 
 /** Starting the server */
 const server = http.createServer(app);
