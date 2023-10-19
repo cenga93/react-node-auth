@@ -7,6 +7,11 @@ import User, { IUserModel } from '../models/User';
 import { Types } from 'mongoose';
 import config from '../config/config';
 
+/**
+ * Create new user
+ *
+ * @param req - Represents a Request.
+ */
 const createUser = async (req: Request): Promise<{ user: IUser; token: string }> => {
      const { body } = req;
 
@@ -17,11 +22,10 @@ const createUser = async (req: Request): Promise<{ user: IUser; token: string }>
      /**  Save new user in database  */
      const newUser: IUserModel = await new User(body).save();
 
-     /** Payload for token
-      *
-      *  The reason for the "string | undefined" password and email type is due to the "password?: string;" and "email?: string;"  declarations within the IUser interface.
-      * */
-
+     /**
+      * Payload for token
+      * The reason for the "string | undefined" password and email type is due to the "password?: string;" and "email?: string;"  declarations within the IUser interface.
+      */
      const payload: { email: string | undefined; password: string | undefined } = {
           email: newUser.email,
           password: newUser.password,

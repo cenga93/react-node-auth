@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { IUser } from '../types';
 import httpStatus from 'http-status';
 import { catchAsync } from 'catch-async-express';
-import repo from '../repositories/auth';
+import AuthRepository from '../repositories/auth';
 
 export const register = catchAsync(async (req: Request, res: Response) => {
-     const data: { user: IUser; token: string } = await repo.createUser(req);
+     const data: { user: IUser; token: string } = await AuthRepository.createUser(req);
 
      res.cookie('token', data.token, {
           httpOnly: true,
