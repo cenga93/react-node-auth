@@ -40,8 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 /** Parse application/json */
 app.use(express.json());
 
-// mongoose.Promise = Promise;
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 
 /** Router */
 app.use('/api', router());
