@@ -18,20 +18,11 @@ const useForm = (validate: any) => {
    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
 
-      const errors: any = validate(values);
+      const { errors, valid } = validate(values);
 
       setErrors({ ...errors });
 
-      let errorsExist = false;
-
-      for (const key in errors) {
-         if (errors[key]) {
-            errorsExist = true;
-            break;
-         }
-      }
-
-      if (!errorsExist) {
+      if (valid) {
          console.log('submit');
       }
    };
