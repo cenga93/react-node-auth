@@ -11,3 +11,7 @@ export interface IError {
    isOperational?: boolean;
    stack?: string;
 }
+
+export interface IReq extends Request {
+   user: IUser;
+}
