@@ -8,7 +8,7 @@ const RegisterComponent: React.FC = () => {
    const { handleSubmit, handleChange, errors, values } = useForm(validate);
 
    return (
-      <div className='container'>
+      <div className='form-container'>
          <form className='form' onSubmit={handleSubmit}>
             {/* Firstname */}
             <FormInput label='Firstname' name='firstname' type='text' value={values.firstname} onChange={handleChange} error={errors.firstname} />
