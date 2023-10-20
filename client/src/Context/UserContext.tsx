@@ -10,9 +10,13 @@ const axiosInstance: AxiosInstance = axios.create({
 
 export const UserContextProvider = ({ children }: any) => {
    const registerAPI = async (payload: any) => {
+      let state = false;
+
       try {
          await axiosInstance.post('user/register/', payload);
          localStorage.setItem('userAuthenticated', 'true');
+         state = true;
+         return state;
       } catch (error) {
          if (axios.isAxiosError(error)) {
             if (error.response) {
@@ -24,6 +28,8 @@ export const UserContextProvider = ({ children }: any) => {
             }
          }
       }
+
+      return state;
    };
 
    const getUser = async () => {

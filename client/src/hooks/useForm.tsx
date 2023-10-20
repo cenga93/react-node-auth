@@ -32,10 +32,10 @@ const useForm = (validate: any) => {
          return;
       }
 
-      await registerAPI({ ...values });
-
-      // Redirect to home page
-      history('/');
+      if (await registerAPI({ ...values })) {
+         // Redirect to home page
+         history('/');
+      }
    };
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
