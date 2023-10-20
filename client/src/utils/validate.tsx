@@ -1,6 +1,6 @@
-export default function validate(values: { firstname: string; lastname: string; email: string; password: string }) {
-   const trimAndCheckEmpty = (value: string) => value.trim() === '';
-   const isEmailValid = (email: string) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+const validate = (values: { firstname: string; lastname: string; email: string; password: string }) => {
+   const trimAndCheckEmpty = (value: string): boolean => value.trim() === '';
+   const isEmailValid = (email: string) => /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
 
    const errors = {
       firstname: trimAndCheckEmpty(values.firstname) ? 'Field required' : '',
@@ -15,4 +15,6 @@ export default function validate(values: { firstname: string; lastname: string; 
       errors,
       valid,
    };
-}
+};
+
+export default validate;
