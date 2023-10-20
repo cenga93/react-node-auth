@@ -12,6 +12,7 @@ export const UserContextProvider = ({ children }: any) => {
    const registerAPI = async (payload: any) => {
       try {
          await axiosInstance.post('user/register/', payload);
+         localStorage.setItem('userAuthenticated', 'true');
       } catch (error) {
          if (axios.isAxiosError(error)) {
             if (error.response) {

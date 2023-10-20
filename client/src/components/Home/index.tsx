@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './style.scss';
 import UserContext from '../../Context/UserContext';
 
 const HomeComponent: React.FC = () => {
    const navigate = useNavigate();
-   const location = useLocation();
 
    const [user, setUser] = useState({
       firstname: '',
@@ -15,9 +14,9 @@ const HomeComponent: React.FC = () => {
    const { getUser, logout } = useContext(UserContext);
 
    useEffect(() => {
-      console.log(location.pathname);
-      // console.log(history.name);
-      // getUser().then((data: any) => setUser(data));
+      if (localStorage.getItem('userAuthenticated')) {
+         getUser().then((data: any) => setUser(data));
+      }
    }, []);
 
    const handleLogout = async () => {
@@ -27,7 +26,7 @@ const HomeComponent: React.FC = () => {
 
    return (
       <div className='home-container'>
-         {user ? (
+         {user.firstname && user.lastname ? (
             <div>
                <h1>
                   Welcome {user.firstname} {user.lastname}
