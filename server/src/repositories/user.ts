@@ -25,9 +25,11 @@ const createUser = async (req: Request): Promise<{ user: IUser; token: string }>
 
    /**
     * Payload for token
-    * The reason for the "string | undefined" password and email type is due to the "password?: string;" and "email?: string;"  declarations within the IUser interface.
+    * The reason for the "string | undefined" firstname and lastname type is due to the "firstname?: string;" and "lastname?: string;"  declarations within the IUser interface.
     */
-   const payload: { email: string | undefined; password: string | undefined } = {
+   const payload: IUser = {
+      firstname: newUser.firstname,
+      lastname: newUser.lastname,
       email: newUser.email,
       password: newUser.password,
    };
@@ -40,7 +42,7 @@ const createUser = async (req: Request): Promise<{ user: IUser; token: string }>
          firstname: newUser.firstname,
          lastname: newUser.lastname,
       },
-      token: token,
+      token,
    };
 };
 

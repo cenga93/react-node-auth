@@ -2,12 +2,12 @@ import { Request, Response } from 'express';
 import { IReq, IUser } from '../types';
 import httpStatus from 'http-status';
 import { catchAsync } from 'catch-async-express';
-import AuthRepository from '../repositories/auth';
+import UserRepository from '../repositories/user';
 import User from '../models/User';
 import ApiError from '../middleware/error';
 
 export const register = catchAsync(async (req: Request, res: Response) => {
-   const data: { user: IUser; token: string } = await AuthRepository.createUser(req);
+   const data: { user: IUser; token: string } = await UserRepository.createUser(req);
 
    res.cookie('token', data.token, {
       httpOnly: true,
@@ -26,8 +26,8 @@ export const me = catchAsync(async (req: IReq, res: Response) => {
    if (!user) throw new ApiError(httpStatus.FORBIDDEN, 'User not found');
 
    res.status(httpStatus.OK).json({
-      email: user.email,
-      password: user.password,
+      firstname: user.firstname,
+      lastname: user.lastname,
    });
 });
 
