@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+
+import UserContext from '../Context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const useForm = (validate: any) => {
+   const { registerAPI } = useContext(UserContext);
+   const history = useNavigate();
+
    const [values, setValues] = useState({
       firstname: '',
       lastname: '',
@@ -15,16 +21,21 @@ const useForm = (validate: any) => {
       password: '',
    });
 
-   const handleSubmit = (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
 
       const { errors, valid } = validate(values);
 
       setErrors({ ...errors });
 
-      if (valid) {
-         console.log('submit');
+      if (!valid) {
+         return;
       }
+
+      await registerAPI({ ...values });
+
+      // Redirect to home page
+      history('/');
    };
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
