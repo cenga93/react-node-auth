@@ -41,8 +41,4 @@ mongoose.Promise = Promise;
 /** Router */
 app.use('/api', router());
 
-// app.all('/api/*', function (req: Request, res: Response, next: NextFunction) {
-//    next();
-// });
-
 export default app;
