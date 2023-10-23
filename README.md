@@ -37,9 +37,11 @@ npm install
 cd server
 npm install
 ```
+
 ---
 
 ## Running the Server
+
 To start the client and server, use the following commands:
 
 Running the Client:
@@ -57,7 +59,9 @@ Running the Server:
 cd server
 npm start
 ```
+
 ## Accessing the Application
+
 Once both the client and server are running, you can access the application in your web browser:
 
 Client: `http://localhost:3000`
