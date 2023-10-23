@@ -23,8 +23,6 @@ const useForm = (validate: any, submitButtonRef: React.MutableRefObject<HTMLButt
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
 
-      submitButtonRef.current?.classList.add('loading');
-
       /** Validate the form values and receive validation results */
       const { errors, valid } = validate(values);
 
@@ -36,12 +34,19 @@ const useForm = (validate: any, submitButtonRef: React.MutableRefObject<HTMLButt
          return;
       }
 
-      /**
-       * Attempt to register the user using an API call.
-       * If the registration is successful, redirect to the home page
-       */
-      if (await registerAPI({ ...values })) {
-         history('/');
+      try {
+         /** Disable the submit button while the request is in progress */
+         submitButtonRef.current?.classList.add('loading');
+
+         /** Attempt to register the user using an API call */
+         const registrationResult = await registerAPI({ ...values });
+
+         if (registrationResult) {
+            history('/');
+         }
+      } finally {
+         /** Re-enable the submit button, even in case of an error */
+         submitButtonRef.current?.classList.remove('loading');
       }
    };
 
