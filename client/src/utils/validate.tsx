@@ -19,7 +19,7 @@ const validate = (values: { firstname: string; lastname: string; email: string; 
    };
 
    /** Determine overall validity by checking if all errors are empty */
-   const valid = Object.values(errors).every((error) => error === '');
+   const valid: boolean = Object.values(errors).every((error) => error === '');
 
    return {
       errors,
