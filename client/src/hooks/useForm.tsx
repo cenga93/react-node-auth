@@ -34,18 +34,17 @@ const useForm = (validate: any, submitButtonRef: React.MutableRefObject<HTMLButt
          return;
       }
 
-      try {
-         /** Disable the submit button while the request is in progress */
-         submitButtonRef.current?.classList.add('loading');
+      /** Disable the submit button while the request is in progress */
+      submitButtonRef.current?.classList.add('loading');
 
-         /** Attempt to register the user using an API call */
-         const registrationResult = await registerAPI({ ...values });
-
-         if (registrationResult) {
-            history('/');
-         }
-      } finally {
-         /** Re-enable the submit button, even in case of an error */
+      /**
+       * Attempt to register the user using an API call.
+       */
+      if (await registerAPI({ ...values })) {
+         /** Redirect to the home page if registration is successful */
+         history('/');
+      } else {
+         /** Enable submit button */
          submitButtonRef.current?.classList.remove('loading');
       }
    };
