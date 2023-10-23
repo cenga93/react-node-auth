@@ -1,24 +1,24 @@
-import React, { createContext, useState } from 'react';
-import axios, { AxiosInstance, AxiosError } from 'axios';
-
+import React, { createContext } from 'react';
+import Axios from '../config/axios';
+import { isAxiosError } from 'axios';
 const UserContext: React.Context<any> = createContext({});
 
-const axiosInstance: AxiosInstance = axios.create({
-   baseURL: 'http://localhost:8080/api/',
-   withCredentials: true,
-});
-
 export const UserContextProvider = ({ children }: any) => {
+   /**
+    * Register
+    *
+    * @param payload - This should be data from register form.
+    */
    const registerAPI = async (payload: any) => {
       let state = false;
 
       try {
-         await axiosInstance.post('user/register/', payload);
-         localStorage.setItem('userAuthenticated', 'true');
+         await Axios.post('user/register/', payload);
          state = true;
+
          return state;
       } catch (error) {
-         if (axios.isAxiosError(error)) {
+         if (isAxiosError(error)) {
             if (error.response) {
                console.error('Server error:', error.response.data);
             } else if (error.request) {
@@ -32,13 +32,16 @@ export const UserContextProvider = ({ children }: any) => {
       return state;
    };
 
+   /**
+    * Get logged user from database
+    */
    const getUser = async () => {
       try {
-         const { data } = await axiosInstance.get('user/me/');
+         const { data } = await Axios.get('user/me/');
 
          return data;
       } catch (error) {
-         if (axios.isAxiosError(error)) {
+         if (isAxiosError(error)) {
             if (error.response) {
                console.error('Server error:', error.response.data);
             } else if (error.request) {
@@ -50,11 +53,14 @@ export const UserContextProvider = ({ children }: any) => {
       }
    };
 
+   /**
+    * Logout
+    */
    const logout = async () => {
       try {
-         await axiosInstance.get('user/logout/');
+         await Axios.get('user/logout/');
       } catch (error) {
-         if (axios.isAxiosError(error)) {
+         if (isAxiosError(error)) {
             if (error.response) {
                console.error('Server error:', error.response.data);
             } else if (error.request) {

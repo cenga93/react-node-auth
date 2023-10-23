@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './style.scss';
 import UserContext from '../../Context/UserContext';
 
@@ -14,9 +14,7 @@ const HomeComponent: React.FC = () => {
    const { getUser, logout } = useContext(UserContext);
 
    useEffect(() => {
-      if (localStorage.getItem('userAuthenticated')) {
-         getUser().then((data: any) => setUser(data));
-      }
+      getUser().then((data: any) => setUser(data));
    }, []);
 
    const handleLogout = async () => {
