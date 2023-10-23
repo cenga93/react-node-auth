@@ -3,7 +3,7 @@ import ApiError from '../middleware/error';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import { IUser } from '../types';
-import User, { IUserModel } from '../models/User';
+import User from '../models/User';
 import { Types } from 'mongoose';
 import config from '../config/config';
 
@@ -12,7 +12,6 @@ import config from '../config/config';
  *
  * @param req - Represents a Request.
  */
-
 const createUser = async (req: Request): Promise<{ user: IUser; token: string }> => {
    const { body } = req;
 
@@ -21,7 +20,7 @@ const createUser = async (req: Request): Promise<{ user: IUser; token: string }>
    if (userExists) throw new ApiError(httpStatus.FORBIDDEN, 'User already exists');
 
    /**  Save new user in database  */
-   const newUser: IUserModel = await new User(body).save();
+   const newUser: IUser = await new User(body).save();
 
    /**
     * Payload for token

@@ -22,7 +22,7 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 export const me = catchAsync(async (req: IReq, res: Response) => {
    const { email, password } = req.user;
 
-   const user = await User.findOne({ email: email, password: password });
+   const user = await User.findOne({ email, password });
    if (!user) throw new ApiError(httpStatus.FORBIDDEN, 'User not found');
 
    res.status(httpStatus.OK).json({

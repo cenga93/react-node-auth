@@ -1,10 +1,6 @@
-import { Document, Model, model, Schema } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { IUser } from '../types';
-
-export interface IUserModel extends IUser, Document {
-   // getPublicFields(): Promise<IUser>;
-}
 
 const UserSchema = new Schema(
    {
