@@ -14,7 +14,11 @@ const HomeComponent: React.FC = () => {
    const { getUser, logout } = useContext(UserContext);
 
    useEffect(() => {
-      getUser().then((data: any) => setUser(data));
+      const isAuthenticated = localStorage.getItem('authUser') === 'true';
+
+      if (isAuthenticated) {
+         getUser().then((data: { firstname: string; lastname: string }) => setUser(data));
+      }
    }, [getUser]);
 
    const handleLogout = async () => {
@@ -24,7 +28,7 @@ const HomeComponent: React.FC = () => {
 
    return (
       <div className='home-container'>
-         {user.firstname && user.lastname ? (
+         {user?.firstname && user?.lastname ? (
             <div>
                <h1>
                   Welcome {user.firstname} {user.lastname}

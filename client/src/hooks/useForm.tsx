@@ -41,11 +41,13 @@ const useForm = (validate: any, submitButtonRef: React.MutableRefObject<HTMLButt
        * Attempt to register the user using an API call.
        */
       if (await registerAPI({ ...values })) {
+         localStorage.setItem('authUser', 'true');
          /** Redirect to the home page if registration is successful */
          history('/');
       } else {
          /** Enable submit button */
          submitButtonRef.current?.classList.remove('loading');
+         localStorage.setItem('authUser', 'false');
       }
    };
 

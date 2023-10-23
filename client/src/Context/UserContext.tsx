@@ -59,6 +59,7 @@ export const UserContextProvider = ({ children }: any) => {
    const logout = async () => {
       try {
          await Axios.get('user/logout/');
+         localStorage.setItem('authUser', 'false');
       } catch (error) {
          if (isAxiosError(error)) {
             if (error.response) {
