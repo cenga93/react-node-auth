@@ -48,6 +48,36 @@
          text-transform: uppercase;
          font-family: Arial, sans-serif;
          cursor: pointer;
+         height: 45px;
+
+         &.loading {
+            pointer-events: none;
+            position: relative;
+            font-size: 0;
+
+            @keyframes spin {
+               0% {
+                  transform: translate(-50%, -50%) rotate(0deg);
+               }
+               100% {
+                  transform: translate(-50%, -50%) rotate(360deg);
+               }
+            }
+
+            &:after {
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+               content: '';
+               border: 4px solid #f3f3f3;
+               border-top: 4px solid #3498db;
+               border-radius: 50%;
+               width: 20px;
+               height: 20px;
+               animation: spin 1s linear infinite;
+            }
+         }
 
          &:hover {
             background-color: #3b46d5;

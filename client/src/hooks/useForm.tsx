@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import UserContext from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
-const useForm = (validate: any) => {
+const useForm = (validate: any, submitButtonRef: React.MutableRefObject<HTMLButtonElement | null>) => {
    const { registerAPI } = useContext(UserContext);
    const history = useNavigate();
 
@@ -22,6 +22,8 @@ const useForm = (validate: any) => {
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
+
+      submitButtonRef.current?.classList.add('loading');
 
       /** Validate the form values and receive validation results */
       const { errors, valid } = validate(values);
