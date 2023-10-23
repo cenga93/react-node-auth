@@ -13,7 +13,7 @@ const FormInput: React.FC<Props> = ({ label, name, type, onChange, error, value 
    return (
       <div className='form__form-control'>
          <label htmlFor={name}>{label}</label>
-         <input type={type} name={name} id={name} onChange={onChange} value={value} />
+         <input type={type} name={name} id={name} onChange={onChange} value={value} autoComplete='off' />
          <span className='form__error'> {error}</span>
       </div>
    );
