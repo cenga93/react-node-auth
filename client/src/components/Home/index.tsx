@@ -15,7 +15,7 @@ const HomeComponent: React.FC = () => {
 
    useEffect(() => {
       getUser().then((data: any) => setUser(data));
-   }, []);
+   }, [getUser]);
 
    const handleLogout = async () => {
       await logout();
